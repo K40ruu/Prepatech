@@ -444,7 +444,13 @@ Nos visiteurs peuvent désormais accéder à notre site web WordPress et navigue
 
 ## GLPI
 
-* ### Installer sur un Linux Debian sans GUI le GLPI et le faire pointer sur support.votredomaine.lan (avec certificat local auto-signé , HSTS et HTTPS)
+* ### Installer sur un Linux Debian sans GUI le GLPI et le faire pointer sur help.votredomaine.lan (avec certificat local auto-signé , HSTS et HTTPS)
+![vhost](/screens/certificat-hsts-autosingé-GLPI.png)
+
+Nous avons installé GLPI sur un serveur Linux Debian sans interface graphique. Pour que les utilisateurs puissent accéder à GLPI via un navigateur web, nous avons configuré Apache pour pointer l'adresse IP du serveur GLPI vers le nom de domaine help.inwaves.lan.
+
+Pour intégrer cette configuration dans notre Active Directory, nous devons ajouter une entrée DNS pour le nom de domaine help.inwaves.lan, pointant vers l'adresse IP du serveur GLPI.
+
 
 
 
