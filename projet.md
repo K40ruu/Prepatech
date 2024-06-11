@@ -294,7 +294,7 @@ Cette solution offre une manière simple et sécurisée de fournir aux utilisate
 
 * ### Installer un Linux Debian 11 ans GUI sur qui va héberger le futur site web front-end d'INWAVES
 
-nous nous lançons dans la mise en place du serveur qui hébergera notre futur site web front-end sur www.votredomaine.lan. Pour cela, nous avons choisi de virtualiser un environnement Debian 11 sans interface graphique sur Proxmox.
+nous nous lançons dans la mise en place du serveur qui hébergera notre futur site web front-end sur www.inwaves.lan. Pour cela, nous avons choisi de virtualiser un environnement Debian 11 sans interface graphique sur Proxmox.
 
 Après avoir créé la machine virtuelle et défini ses ressources, nous avons entamé l'installation de Debian 11. Optant pour une installation minimale, nous avons évité d'inclure une interface graphique afin de maximiser les performances et la sécurité du serveur.
 
