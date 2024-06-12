@@ -294,7 +294,7 @@ Cette solution offre une manière simple et sécurisée de fournir aux utilisate
 
 * ### Installer un Linux Debian 11 ans GUI sur qui va héberger le futur site web front-end d'INWAVES
 
-nous nous lançons dans la mise en place du serveur qui hébergera notre futur site web front-end sur www.inwaves.lan. Pour cela, nous avons choisi de virtualiser un environnement Debian 11 sans interface graphique sur Proxmox.
+nous nous lançons dans la mise en place du serveur qui hébergera notre futur site web front-end sur www.votredomaine.lan. Pour cela, nous avons choisi de virtualiser un environnement Debian 11 sans interface graphique sur Proxmox.
 
 Après avoir créé la machine virtuelle et défini ses ressources, nous avons entamé l'installation de Debian 11. Optant pour une installation minimale, nous avons évité d'inclure une interface graphique afin de maximiser les performances et la sécurité du serveur.
 
@@ -362,7 +362,7 @@ Il suffit d'ajouter dans le fichier .conf vu precedemement la commande :
 
 ```
 
- De plus Pour garantir que les connexions HTTPS utilisent le certificat auto-signé, vous devez ajouter les chemins vers le certificat et la clé privée dans le fichier de configuration Apache. Cela se fait en modifiant le fichier de configuration .conf associé au site web.
+ De plus Pour garantir que les connexions HTTPS utilisent le certificat auto-signé, vous devez ajouter les chemins vers le certificat et la clé privée généré par OpenSSL et Apache dans le fichier de configuration Apache. Cela se fait en modifiant le fichier de configuration .conf associé au site web.
 
 
 Ajouter la ligne : 
@@ -447,11 +447,49 @@ Nos visiteurs peuvent désormais accéder à notre site web WordPress et navigue
 * ### Installer sur un Linux Debian sans GUI le GLPI et le faire pointer sur help.votredomaine.lan (avec certificat local auto-signé , HSTS et HTTPS)
 ![vhost](/screens/certificat-hsts-autosingé-GLPI.png)
 
-Nous avons installé GLPI sur un serveur Linux Debian sans interface graphique. Pour que les utilisateurs puissent accéder à GLPI via un navigateur web, nous avons configuré Apache pour pointer l'adresse IP du serveur GLPI vers le nom de domaine help.inwaves.lan.
+Nous avons installé GLPI sur un serveur LAMP(Linux Apache MariaDB PHP) Debian sans interface graphique exactement comme le serveur wordpress. Pour que les utilisateurs puissent accéder à GLPI via un navigateur web, nous avons configuré l'adresse IP du serveur GLPI vers le nom de domaine help.inwaves.lan.
 
-Pour intégrer cette configuration dans notre Active Directory, nous devons ajouter une entrée DNS pour le nom de domaine help.inwaves.lan, pointant vers l'adresse IP du serveur GLPI.
+Pour intégrer cette configuration dans notre Active Directory, nous devons ajouter une entrée DNS pour le nom de domaine help.votredomaine.lan, pointant vers l'adresse IP du serveur GLPI(172.16.3.245).
+
+Pour le certificat auto-signé du serveur GLPI, nous avons suivi exactement la même procédure que celle utilisée pour le serveur web WordPress, Nous avons généré un certificat SSL auto-signé pour le serveur GLPI en utilisant les outils fournis par OpenSSL et Apache.
+
+* ### Synchronisation du GLPI avec le DC1 pour remonter les utilisateurs.
+
+![userglpi](/screens/user-remonté-GLPI.png)
 
 
+Pour synchroniser GLPI avec notre contrôleur de domaine DC1 et remonter les utilisateurs, nous avons configuré l'intégration LDAP de GLPI. En accédant à l'interface d'administration de GLPI, nous avons renseigné les informations nécessaires pour établir une connexion avec notre Active Directory, telles que l'adresse du serveur, le port et les informations d'identification appropriées. Une fois la connexion établie, GLPI a pu interroger le contrôleur de domaine DC1 pour récupérer et synchroniser les utilisateurs du domaine.
+<br><br>
+
+![remontevm](/screens/remontée-pc-client-GLPI.png)
+
+
+Pour permettre à GLPI de faire une remontée d'inventaire des PC clients en VM, nous avons déployé l'agent GLPI sur tous les postes du domaine. Nous avons configuré une GPO (Group Policy Object) dans notre Active Directory pour automatiser l'installation de cet agent sur chaque machine cliente. Grâce à cette GPO, l'agent GLPI est automatiquement installé et configuré sur tous les PC clients dès qu'ils rejoignent le domaine. Une fois installés, les agents commencent à envoyer régulièrement des données d'inventaire matériel et logiciel à GLPI, permettant une gestion centralisée et une visibilité complète de notre parc informatique virtuel.
+
+* ### FAQ GLPI
+
+![faqglpi](/screens/FAQ-GLPI.png)
+
+Nous avons mis en place une foire aux questions (FAQ) dans GLPI. Cette FAQ sert à centraliser et à diffuser les réponses aux questions récurrentes, ce qui aide à réduire la charge de travail du support technique et à fournir rapidement des solutions aux utilisateurs.
+
+
+* ###  Workflow complet d'un ticket pour un usager de l'AD
+
+![faqglpi](/screens/Problem-discover.png)
+
+Lorsqu'un utilisateur découvre un problème, il peut soumettre un ticket via l'interface GLPI(self service). 
+
+
+![faqglpi](/screens/Problem-Solution-Statut-en-cours.png)
+
+Si une réponse ou une solution est proposée, le ticket est mis en attente pour permettre à l'utilisateur de tester ou de valider la solution. 
+
+
+![workglpi](/screens/ticket-clos.png)
+
+Une fois la solution confirmée, le ticket est clos, assurant ainsi un suivi et une résolution systématique des incidents signalés.
+
+## Infra Système n°3 (update)
 
 
 
