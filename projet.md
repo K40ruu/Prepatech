@@ -491,6 +491,27 @@ Une fois la solution confirmée, le ticket est clos, assurant ainsi un suivi et 
 
 ## Infra Système n°3 (update)
 
+* ### Migration des postes clients et des windows serveurs
+
+![workglpi](/screens/proxmox-all-machine.png)
+
+
+Nous avons entrepris de passer tous nos serveurs Windows de la version 2012R2 à 2022, ainsi que de migrer tous les clients de Windows 7/8.1 vers Windows 10. Pour ce faire, nous avons suivi une approche méthodique, commençant par la mise à jour des serveurs.
+
+Pour le serveur Active Directory (AD), nous avons créé une machine vierge sous Windows Server 2022. Nous avons appliqué la fiche recette détaillant les configurations nécessaires. Lors de l'installation du rôle AD, nous avons choisi l'option de répliquer un contrôleur existant, en l'occurrence notre serveur Windows Server 2012R2. Cette réplication a permis de transférer toutes les données et configurations. Une fois la réplication confirmée et toutes les données présentes, nous avons mis hors service le serveur 2012R2.
+
+En parallèle,nous avons migré progressivement nos autres serveurs en passant par les versions intermédiaires Windows Server 2016 et 2019 avant de les mettre à jour vers 2022. Le serveur IIS a été mis à jour pour assurer une compatibilité et une sécurité optimales pour nos services web internes. Le serveur DHCP a été migré pour continuer à gérer efficacement la distribution des adresses IP au sein du réseau. Le serveur de fichiers a également été mis à jour, incluant la configuration des quotas et des filtres pour une gestion optimale des ressources de stockage.
+
+Simultanément, nous avons lancé la migration des clients de Windows 7/8.1 vers Windows 10. Nous avons déployé les mises à jour nécessaires et effectué les migrations par vagues pour minimiser les interruptions de service.
+
+Enfin, nous avons vérifié la bonne propagation des Group Policy Objects (GPOs) sur l'ensemble de notre réseau. Grâce à ces étapes, nous avons assuré une transition fluide et maintenu la continuité des services tout en modernisant notre infrastructure informatique.
+
+
+## Schéma final de notre infra 
+
+
+![workglpi](/screens/shemaaa.jpg)
+
 
 
 
